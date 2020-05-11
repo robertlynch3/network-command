@@ -1,0 +1,12 @@
+{
+    "switches":[{
+                "name":"",
+                "ipAddress": "",
+                "location":{
+                        "datacenter":"",
+                        "rack":"",
+                        "u":""
+                        }
+                }     
+        ]          
+}

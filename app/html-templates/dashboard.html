@@ -1,0 +1,26 @@
+{% extends 'layout.html' %}
+
+{% block title %}Dashboard • SDN Command{% endblock %}
+
+{% block body %}
+  <h1>Dashboard <small> Welcome {{session.name}}</small></h1>
+  <a class="btn btn-success" href="/switch/Add"> Add Switch</a>
+  <hr>
+  <table class="table table-striped">
+    <tr>
+      <th>Name</th>
+      <th>IP Address</th>
+      <th>Location</th>
+      <th><div class="pull-right">Actions</div></th>
+    </tr>
+    {% for switch in switches %}
+    {% set addressURL = switch.ipAddress|replace(".", "%2E") %}
+      <tr>
+        <td>{{switch.name}}</td>
+        <td>{{switch.ipAddress}}</td>
+        <td>Datacenter: {{switch.location['datacenter']}}, Rack: {{switch.location['rack']}}, U: {{switch.location['u']}}</td>
+        <td><a href="{{url_for('conf_switch', id=switch.addressURL}}" class="btn btn-primary pull-right">Configure</a></td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}

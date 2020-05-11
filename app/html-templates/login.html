@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block title %}Login • SDN Command{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <br><br><br><h1 class="text-center">Login</h1><br><br><br>
+        <form action="" method="POST">
+            <div class="form-group">
+                <label>Username</label>
+                <input type=text name="username" class="form-control" value={{request.form.username}}>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" class="form-control" value={{request.form.password}}>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+{% endblock %} 
