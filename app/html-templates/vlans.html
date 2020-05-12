@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block title %}VLANs • Network Command{% endblock %}
+
+{% block body %}
+  <h1>VLANs</h1>
+  <!--<a class="btn btn-success" href="/switch/add"> Add Switch</a>-->
+  <hr>
+  <div class="row">
+    <div class="col"></div>
+    <div class="col-8">
+        <table class="table table-striped">
+            <tr>
+              <th>Name</th>
+              <th>VLAN ID</th>
+              <th>Description</th>
+            </tr>
+            {% for vlan in vlans %}
+              <tr>
+                <td>{{vlan['vlan-name']}}</td>
+                <td>{{vlan['vlan-tag']}}</td>
+                <td>{% if 'vlan-description' not in vlan %}None {% else %} {{vlan['vlan-description']}} {% endif %}</td>
+              </tr>
+            {% endfor %}
+          </table>
+    </div>
+    <div class="col"></div>
+{% endblock %}

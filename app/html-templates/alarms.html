@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block title %}Alarms • Network Command{% endblock %}
+
+{% block body %}
+  <h1>Alarms</h1>
+  <!--<a class="btn btn-success" href="/switch/add"> Add Switch</a>-->
+  <hr>
+
+    {% for devices in alarms %}
+        {% if 'no-active-alarms' in devices[1]['alarm-summary'] %}
+
+        {% else %}
+        <h5>{{devices[0]}}</h5>
+            <table class="table table-striped">
+                <tr>
+                <th>Date</th>
+                <th>Class</th>
+                <th>Description</th>
+                </tr>
+                <tr class="{% if devices[1]['alarm-detail']['alarm-class']=='Major' %} table-danger {% else %}  table-warning {% endif %}">
+                    <td>{{devices[1]['alarm-detail']['alarm-time']}}</td>
+                    <td>{{devices[1]['alarm-detail']['alarm-class']}}</td>
+                    <td>{{devices[1]['alarm-detail']['alarm-description']}}</td>
+                </tr>
+                
+            </table>
+        {% endif %}
+    {% endfor %}
+
+{% endblock %}

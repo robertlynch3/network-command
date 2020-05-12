@@ -7,21 +7,19 @@
   <h4>Welcome {{session.name}}</h4>
   <!--<a class="btn btn-success" href="/switch/add"> Add Switch</a>-->
   <hr>
-  <table class="table table-striped">
-    <tr>
-      <th>Name</th>
-      <th>IP Address</th>
-      <th>Location</th>
-      <th><div class="pull-right">Actions</div></th>
-    </tr>
-    {% for switch in switches %}
-    {% set addressURL = switch.ipAddress|replace(".", "%2E") %}
-      <tr>
-        <td>{{switch.name}}</td>
-        <td>{{switch.ipAddress}}</td>
-        <td>Datacenter: {{switch.location['datacenter']}}, Rack: {{switch.location['rack']}}, U: {{switch.location['u']}}</td>
-        <td><a href="{{url_for('conf_switch', ip=switch.ipAddress)}}" class="btn btn-primary pull-right">Configure</a></td>
-      </tr>
-    {% endfor %}
-  </table>
+  <div class="row">
+    <div class="col"></div>
+    <div class="col-6">
+      <table class="table table-bordered table-hover">
+        <tbody>
+          <tr><th scope="row"><a href="/switches">Switch Count</a></th><td>{{switches['switchCount']}}</td></tr> 
+          <tr><th scope="row">Interface Count</th><td>{{switches['intCount']}}</td></tr> 
+          <tr><th scope="row">Interfaces Up</th><td>{{switches['upCount']}}</td></tr>
+          <tr class="{% if switches['alarm_count']==0 %} table-success {% elif switches['alarm_count'] < switches['switchCount'] %} table-warning {% elif switches['alarm_count'] >= switches['switchCount'] %} table-danger {% endif %}">
+            <th scope="row"><a href="/alarms">Alarms</a</th><td>{{switches['alarm_count']}}</td>
+          </tr> 
+        </tbody>
+      </table>
+    </div>
+    <div class="col"></div>
 {% endblock %}

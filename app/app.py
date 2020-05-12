@@ -10,6 +10,7 @@ from flask import Flask, render_template, request, session, flash, logging, url_
 import os, json, sys, hashlib
 from functools import wraps
 from wtforms import Form, StringField, validators, IntegerField
+from multiprocessing import Pool
 
 import backend
 
@@ -33,9 +34,10 @@ except:
 try:
     junosUName=configFile['username']
     junsoPWord=configFile['password']
+    distroIP=configFile['distroIP']
     sessionKey=configFile["sessionKey"]
 except:
-    print("Could not set the username, password, or sessionKey in the config file.\n\nPlease confirm \'config.json\' matches the \'config.json-example\' format")
+    print("Could not set the username, password, distroIP, or sessionKey in the config file.\n\nPlease confirm \'config.json\' matches the \'config.json-example\' format")
     sys.exit()
 
 
@@ -92,8 +94,33 @@ def index():
     if 'logged_in' not in session or not session['logged_in']:
         return redirect(url_for('login'))
     else:
-        switches=backend.loadSwitches()
-        return render_template('dashboard.html', switches=switches['switches'])
+        switches=backend.countInterfaces()
+        return render_template('dashboard.html', switches=switches)
+
+#Dashboard home page
+@app.route('/switches')
+@is_logged_in
+def switches():
+    switches=backend.loadSwitches()
+    return render_template('switches.html', switches=switches['switches'])
+
+#Dashboard home page
+@app.route('/vlans')
+@is_logged_in
+def vlans():
+    vlans=backend.getVLANs(ipAddress=distroIP, junosUsername=junosUName, junosPassword=junsoPWord)
+    return render_template('vlans.html', vlans=vlans['vlan'])
+
+#Dashboard home page
+@app.route('/alarms')
+@is_logged_in
+def alarms():
+    pool=Pool(processes=len(backend.loadSwitches()))
+    ips=[d['ipAddress'] for d in backend.loadSwitches()['switches']]
+    alarms=pool.map(backend.getAlarms, ips)
+    return render_template('alarms.html', alarms=alarms)
+
+
 
 #Configure Switch
 @app.route("/switches/<string:ip>")

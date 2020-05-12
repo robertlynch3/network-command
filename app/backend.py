@@ -15,6 +15,8 @@ from collections import OrderedDict
 from lxml import etree
 import jxmlease
 
+from collections import OrderedDict
+
 directory_root=os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..'))
 
 def login(username, password):
@@ -44,13 +46,65 @@ def loadSwitches():
         print("Could not open \'switches.json\'")
         sys.exit()
 
+def updateSwitchInterfaceList(ipAddress, intNum, intUp, alarm_count):
+    switches=loadSwitches()
+    dicIndex=next((i for i, item in enumerate(switches['switches']) if item["ipAddress"] == ipAddress), None)
+    switches['switches'][dicIndex]
+    switches['switches'][dicIndex]['interface_count']=intNum
+    switches['switches'][dicIndex]['interfaces_up']=intUp
+    switches['switches'][dicIndex]['alarm_count']=alarm_count
+    
+    with open(directory_root+"/switches.json", 'w') as outfile:
+        json.dump(switches, outfile,indent=2, sort_keys=True)
+
+
+
+def countInterfaces():
+    switches=loadSwitches()['switches']
+    intCount=upCount=alarmCount = 0
+
+    for i in switches:
+        if 'interface_count' in i:
+            intCount+=i['interface_count']
+        if 'interfaces_up' in i:
+            upCount+=i['interfaces_up']
+        if 'alarm_count' in i:
+            alarmCount+=i['alarm_count']
+    return {'intCount':intCount, 'upCount':upCount, 'switchCount': len(switches), 'alarm_count':alarmCount}
+
 def getSwitchName(ipaddress):
     switches=loadSwitches()
     for i in switches['switches']:
-       
        if i['ipAddress']==ipaddress:
            return i['name']
     return {"Error":"IP address not found"}
+
+def getAlarms(ipAddress):
+    with open(directory_root+"/config.json") as jsonfile:
+        configFile=json.load(jsonfile)
+    
+
+
+    dev = Device(host=ipAddress, user=configFile['username'], password=configFile['password'])
+    try:
+        dev.open(auto_probe=5)
+    except:
+        return {"Error": "Connection refused"}
+    rpc = dev.rpc.get_alarm_information()
+    rpc_xml = etree.tostring(rpc, pretty_print=True, encoding='unicode')
+    dev.close()
+    return ipAddress, jxmlease.parse(rpc_xml)['alarm-information']
+
+def getVLANs(ipAddress, junosUsername, junosPassword):
+    dev = Device(host=ipAddress, user=junosUsername, password=junosPassword)
+    try:
+        dev.open(auto_probe=5)
+    except:
+        return {"Error": "Connection refused"}
+    rpc = dev.rpc.get_vlan_information()
+    rpc_xml = etree.tostring(rpc, pretty_print=True, encoding='unicode')
+    dev.close()
+    return jxmlease.parse(rpc_xml)['vlan-information']
 
 
 def getInterfaces(ipAddress, junosUsername, junosPassword):
@@ -127,12 +181,23 @@ EthPortView:
             'mode':mode,
             'scripts':scripts
         })
-    #interfaceTable = dev.rpc.get_interface_information({'format':'json'}, interface_name=interface)
-    #For every interface, it creates a Dictionary list to be populated later
+    dev.close()
+    upCount=0
+    #counts up interfaces
+    for i in interfaceList:
+        if i['link_status']=='up':
+            upCount+=1
+
+    try:
+        alarmCount=getAlarms(ipAddress=ipAddress)[1]['alarm-summary']['active-alarm-count']
+    except:
+        alarmCount=0
+    updateSwitchInterfaceList(ipAddress=ipAddress, intNum=len(interfaceList), intUp=upCount, alarm_count=int(alarmCount))
+
     return interfaceList
 
 def getInterfaceConfig(ipAddress, interface, junosUsername, junosPassword):
-    dev = Device(host=ipAddress, user=junosUsername, password=junosPassword, port=22)
+    dev = Device(host=ipAddress, junos=junosUsername, password=junosPassword, port=22)
     try:
         dev.open(auto_probe=5)
     except:
