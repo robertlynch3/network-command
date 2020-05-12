@@ -89,7 +89,7 @@ def getAlarms(ipAddress):
     try:
         dev.open(auto_probe=5)
     except:
-        return {"Error": "Connection refused"}
+        return ipAddress,{"Error": "Connection refused"}
     rpc = dev.rpc.get_alarm_information()
     rpc_xml = etree.tostring(rpc, pretty_print=True, encoding='unicode')
     dev.close()

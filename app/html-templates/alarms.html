@@ -8,9 +8,9 @@
   <hr>
 
     {% for devices in alarms %}
-        {% if 'no-active-alarms' in devices[1]['alarm-summary'] %}
+        {% if 'alarm-summary' in devices[1] and 'no-active-alarms' in devices[1]['alarm-summary'] %}
 
-        {% else %}
+        {% elif 'alarm-summary' in devices[1] %}
         <h5>{{devices[0]}}</h5>
             <table class="table table-striped">
                 <tr>
@@ -25,6 +25,8 @@
                 </tr>
                 
             </table>
+        {% else %}
+
         {% endif %}
     {% endfor %}
 
