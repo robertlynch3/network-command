@@ -23,7 +23,7 @@ This controller is built on Python using Flask and Bootstrap as a frontend and J
 Before using this controller, you must have `Python3` installed along with `Python Pip`.<br>
 Clone the repo and change into the directory.
 ```bash
-pip install -R requirements.txt
+pip install -r requirements.txt
 ```
 Then create the `switches.json`, `users.json`, and `config.json` files.
 ```bash
