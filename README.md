@@ -11,9 +11,13 @@ This controller is built on Python using Flask and Bootstrap as a frontend and J
 
 ## Screenshots
 ![Login Screen](Images/login.png)
+###### Login Page<br><br>
 ![Dashboard](Images/Dashboard.png)
+###### Dashboard<br><br>
 ![Switch Interfaces](Images/switch-interfaces.png)
+###### Viewing interfaces on a switch<br><br>
 ![Actionable Items](Images/Actionable-items.png)
+###### Actionable Items on a switch<br><br>
 
 ## Install
 Before using this controller, you must have `Python3` installed along with `Python Pip`.<br>
