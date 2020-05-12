@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+
+{% block title %}Configure Interface • Network Command{% endblock %}
+
+{% block body %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="{{url_for('conf_switch', ip=ip)}}">{{switch}}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{interface}}</li>
+    </ol>
+  </nav>
+<h1>Interface: {{interface}}</h1>
+{% from "includes/_formhelper.html" import render_field %}
+<div class="row">
+<div class="col"></div>
+<div class="col-6">
+    <table class="table table-striped">
+      {% if 'description' in config%}<tr><td><b>Description:&nbsp;</b></td><td>{{config['description']}}</td></tr>{% endif %}
+      {% if 'unit' in config %}
+        {% if 'ethernet-switching' in config['unit']['family'] %}
+        <tr><td><b>Mode:</b></td><td>{% if 'port-mode' in config['unit']['family']['ethernet-switching'] %}{{config['unit']['family']['ethernet-switching']['port-mode']}}{% else %}Access{% endif %}</td></tr>
+          {% if 'vlan' in config['unit']['family']['ethernet-switching'] %}
+            <tr><td><b>VLANs:</b></td><td>
+            {% if config['unit']['family']['ethernet-switching']['vlan']['members'] is iterable and config['unit']['family']['ethernet-switching']['vlan']['members'] is not string %}
+              {% for vlan in config['unit']['family']['ethernet-switching']['vlan']['members'] %}
+                {{vlan}}{{ "," if not loop.last }}
+              {% endfor %}
+            {% else %}
+            {{config['unit']['family']['ethernet-switching']['vlan']['members']}}
+            {% endif %}
+            </td></tr>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+    </table>
+</div>
+<div class="col"></div>
+</div>
+{% endblock %}

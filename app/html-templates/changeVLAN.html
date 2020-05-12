@@ -1,0 +1,28 @@
+{% extends 'layout.html' %}
+
+{% block title %}Configure Interface • Network Command{% endblock %}
+
+{% block body %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+      <li class="breadcrumb-item"><a href="{{url_for('conf_switch', ip=ip)}}">{{switch}}</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{interface}}</li>
+    </ol>
+  </nav>
+<h1>Edit {{interface}}</h1>
+<h3>{{script}}</h3>
+{% from "includes/_formhelper.html" import render_field %}
+<div class="row">
+<div class="col"></div>
+<div class="col-4">
+    <form method="POST" action="">
+        <div class="form-group">
+            {{render_field(form.vlan, class_="form-control")}}
+        </div>
+        <p><input type="submit" class="btn btn-primary" value="Commit" name='Commit'></p>
+    </form>
+</div>
+<div class="col"></div>
+</div>
+{% endblock %}

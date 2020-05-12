@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+
+{% block title %}Configure {{name}} • SDN Command{% endblock %}
+
+{% block body %}
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{name}}</li>
+    </ol>
+  </nav>
+  <h1>Configure {{name}}</small></h1>
+  <hr>
+  <table class="table table-striped">
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Mode</th>
+      <th>Status</th>
+      <th></th>
+    </tr>
+    {% for int in interfaces %}
+    {% set interfaceURL = int.name|replace("/", "%2F") %}
+      <tr>
+        <td>{{int.name}}</td>
+        <td>{{int.description}}</td>
+        <td>{{int.mode}}</td>
+        <td>{{int.link_status}}</td>
+        <td>
+            <div class="btn-group">
+            <button class="btn btn-info btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Actions <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                {% for script in int.scripts %}
+                <li><a class="dropdown-item" href="{{url_for('configure_interface', ip=ip, interface=interfaceURL, script=script['script'])}}">{{script['name']}}</a></li>
+                {% endfor %}
+            </ul>
+          </div>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+{% endblock %}
