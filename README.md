@@ -12,7 +12,7 @@ This controller is built on Python using Flask and Bootstrap as a frontend and J
 ## Screenshots
 ![Login Screen](Images/login.png)
 ![Dashboard](Images/Dashboard.png)
-![Switch Interfaces](Images/Switch-interfaces.png)
+![Switch Interfaces](Images/switch-interfaces.png)
 ![Actionable Items](Images/Actionable-items.png)
 
 ## Install
