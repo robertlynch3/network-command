@@ -1,12 +1,19 @@
-# juniper-ex-sdn-controller
+# Network Command
 This project is a Flask based SDN controller for Juniper EX series switches.
+
 
 ### Background
 This controller was built as a final project for Marist College MSIS603 - Network Virtualization, Spring 2020.
 
-This controller is built on Python using Flask as a frontend and Juniper's PyEZ as the backend connections to switches.
+This controller is built on Python using Flask and Bootstrap as a frontend and Juniper's PyEZ as the backend connections to switches.
 
 ***NOTE***: This app is not secure. It requires a file called `users.json` and `switch.json` so all the info in it is in plaintext. A full implementation of this should use a secure database, not plain text files.
+
+## Screenshots
+![Login Screen](Images/login.png)
+![Dashboard](Images/Dashboard.png)
+![Switch Interfaces](Images/Switch-interfaces.png)
+![Actionable Items](Images/Actionable-items.png)
 
 ## Install
 Before using this controller, you must have `Python3` installed along with `Python Pip`.<br>
@@ -52,5 +59,8 @@ Once the users file created, you can add switches in the `switches.json` file. A
 ```
 
 
-## Using
+## Usage
+### Python
+This app can be ran straight from Python.
+
 
