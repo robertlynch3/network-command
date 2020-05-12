@@ -66,5 +66,13 @@ Once the users file created, you can add switches in the `switches.json` file. A
 ## Usage
 ### Python
 This app can be ran straight from Python.
+```bash
+python3 app/app.py
+```
 
-
+### Docker
+This app can be ran via Docker. Docker is recommended.
+```bash
+docker-compose build
+docker-compose up -d
+```
