@@ -12,8 +12,14 @@ This controller is built on Python using Flask and Bootstrap as a frontend and J
 ## Screenshots
 ![Login Screen](Images/login.png)
 ###### Login Page<br><br>
-![Dashboard](Images/Dashboard.png)
+![Dashboard](Images/dashboard.png)
 ###### Dashboard<br><br>
+![VLANs](Images/VLANs.png)
+###### Datacenter VLANs<br><br>
+![VLANs](Images/Alarms.png)
+###### Datacenter Alarms<br><br>
+![Switches](Images/switch-dashboard.png)
+###### Switches<br><br>
 ![Switch Interfaces](Images/switch-interfaces.png)
 ###### Viewing interfaces on a switch<br><br>
 ![Actionable Items](Images/Actionable-items.png)
