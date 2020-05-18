@@ -12,7 +12,7 @@ This controller is built on Python using Flask and Bootstrap as a frontend and J
 ## Screenshots
 ![Login Screen](Images/login.png)
 ###### Login Page<br><br>
-![Dashboard](Images/dashboard.png)
+![Dashboard](Images/Dashboard.png)
 ###### Dashboard<br><br>
 ![VLANs](Images/VLANs.png)
 ###### Datacenter VLANs<br><br>
