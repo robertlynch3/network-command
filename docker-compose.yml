@@ -11,3 +11,4 @@ services:
       - ./switches.json:/switches.json
       - ./users.json:/users.json
       - ./config.json:/config.json
+    restart: always
