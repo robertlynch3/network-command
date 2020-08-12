@@ -197,7 +197,7 @@ EthPortView:
     return interfaceList
 
 def getInterfaceConfig(ipAddress, interface, junosUsername, junosPassword):
-    dev = Device(host=ipAddress, junos=junosUsername, password=junosPassword, port=22)
+    dev = Device(host=ipAddress, user=junosUsername, password=junosPassword, port=22)
     try:
         dev.open(auto_probe=5)
     except:

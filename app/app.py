@@ -76,6 +76,7 @@ def login():
         elif 'Error' in response:
             error=response['Error']
             session['logged_in']=False
+            print("Login failed by \'{}\' with username \'{}\'".format(userIPaddress, username))
             return render_template('login.html',error=error)
     return render_template('login.html')
 
